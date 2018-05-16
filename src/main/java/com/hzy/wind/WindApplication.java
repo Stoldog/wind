@@ -8,6 +8,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class WindApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(ChatLauncher.class, args);
+        SpringApplication.run(WindApplication.class, args);
     }
 }

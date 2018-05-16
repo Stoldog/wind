@@ -2,22 +2,26 @@ package com.hzy.wind.type;
 
 /**
  * Created by EduHzy-019 on 2018-05-15.
+ *
  */
 public enum Event {
-    MESSAGE(0,"交流"),
-    SILENCE(1,"禁言"),
-    UNSILENCE(2,"取消禁言"),
-    TOP(4,"置顶"),
-    RECALL(8,"撤回"),
-    NOTE(16,"笔记"),
-    ERROR(-1,"")
+    MESSAGE(0,"MESSAGE","交流"),
+    SILENCE(1,"SILENCE","禁言"),
+    UNSILENCE(2,"UNSILENCE","取消禁言"),
+    TOP(4,"TOP","置顶"),
+    RECALL(8,"RECALL","撤回"),
+    NOTE(16,"NOTE","笔记"),
+    SYSTEM(32,"SYSTEM","系统消息"),
+    ERROR(-1,"","")
     ;
     private int code;
     private String name;
+    private String description;
 
-    Event(int code, String name) {
+    Event(int code, String name,String description) {
         this.code = code;
         this.name = name;
+        this.description = description;
     }
 
     public int getCode() {
@@ -26,6 +30,10 @@ public enum Event {
 
     public String getName() {
         return name;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     public static Event getByCode(int code){

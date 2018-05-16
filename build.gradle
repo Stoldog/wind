@@ -27,9 +27,22 @@ repositories {
 
 
 dependencies {
-    compile('org.springframework.boot:spring-boot-starter')
-    // https://mvnrepository.com/artifact/com.corundumstudio.socketio/netty-socketio
+    // Spring-Boot 相关
+    compile(
+            'org.springframework.boot:spring-boot-starter',
+            'org.springframework.boot:spring-boot-starter-web'
+    )
+
+    // Socket.IO 相关
     compile group: 'com.corundumstudio.socketio', name: 'netty-socketio', version: '1.7.14'
+
+    // JWT 相关
+    compile group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.0'
+    compile group: 'com.alibaba', name: 'fastjson', version: '1.2.47'
+
+    // Swagger2 相关
+    compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.7.0'
+    compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.7.0'
 
     testCompile('org.springframework.boot:spring-boot-starter-test')
 }
