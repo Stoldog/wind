@@ -25,8 +25,9 @@ public abstract class BaseListener implements DataListener<BasePacket> {
      * @param client
      * @param basePacket
      */
-    public void broadcastMes(SocketIOClient client,String eventName,BasePacket basePacket){
-        client.getNamespace().getBroadcastOperations().sendEvent(eventName,basePacket);
+    public void broadcastMes(SocketIOClient client,Long roomId,String eventName,BasePacket basePacket){
+        System.out.println(client.isChannelOpen());
+        client.getNamespace().getRoomOperations(roomId.toString()).sendEvent(eventName,basePacket);
     }
 
 }
