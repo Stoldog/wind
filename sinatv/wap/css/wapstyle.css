@@ -1,0 +1,295 @@
+html{
+	height: 100%;
+	font-size: 5mm;
+}
+body{
+	margin: 0;
+	padding: 0;
+	color: #333;
+	font-family: "microsoft yahei";
+}
+ul, p, button, input{
+	padding: 0;
+	margin: 0;
+	list-style: none;
+	outline: none;
+}
+.liveBox{
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	width: 100%;
+	height: 12.4rem;
+	background-color: #181716;
+	font-size: 1rem;
+}
+.liveBox video{
+	width: 100%;
+	height: 100%;
+}
+#exchange{
+	overflow: hidden;
+}
+.nav-tabs{
+	position: fixed;
+	top: 12.4rem;
+	left: 0;
+	right: 0;
+	background: #fff url(../img/dian.jpg) left bottom repeat-x;
+	overflow: hidden;
+	font-size: 1rem;
+}
+.nav-tabs li{
+	float: left;
+	width: calc(100% / 3);
+	height: 2.6rem;
+	line-height: 2.6rem;
+	text-align: center;
+	border-bottom: 0.12rem transparent solid;
+	color: #333;
+}
+.nav-tabs li.selected{
+	color: #ff6600;
+	border-bottom-color: #ff6600;
+}
+.tab-content{
+	position: fixed;
+	top: 15.12rem;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: #fff;
+}
+.tab-pane{
+	display: none;
+	width: 100%;
+	height: 100%;
+	overflow-y: auto;
+}
+.tab-pane.active{
+	display: block;
+}
+#top-news{
+	background-color: #f9f9f9;
+	padding: 0.8rem 0;
+	overflow: hidden;
+}
+#top-news .left-side{
+	width: 16%;
+	float: left;
+}
+#top-news .talk-about{
+	float: left;
+	width: calc(84% - 0.5rem);
+	line-height: 1.6rem;
+	color: #333;
+	margin-right: 0.5rem;
+	font-size: 1rem;
+}
+.stick-badeg{
+	display: block;
+	width: 74%;
+	height: 1rem;
+	line-height: 1rem;
+	text-align: center;
+	border-radius: 10%;
+	font-size: 0.9rem;
+	color: #fff;
+	padding: 0.26rem 0;
+	margin-left: 15%;
+	margin-top: 0.2rem;
+	background: linear-gradient(to right, #fdc968, #ff853a);
+}
+.fold{
+	float: right;
+	margin-right: 0.6rem;
+}
+.fold .packup, .fold .unfold{
+	display: inline-block;
+	padding-left: 1rem;
+	margin-left: 0.6rem;
+	font-size: 0.9rem;
+	color: #999;
+}
+.fold .packup{
+	background: url(../img/packup.png) left center no-repeat;
+	background-size: 1rem;
+}
+.fold .unfold{
+	display: none;
+	background: url(../img/unfold.png) left center no-repeat;
+	background-size: 1rem;
+}
+.user-say li, .on-line li{
+	width: 100%;
+	padding: 1rem 0;
+	overflow: hidden;
+}
+.user-say .left-side, .on-line .left-side{
+	float: left;
+ 	width: 18%;
+ 	font-size: 0;
+ 	text-align: center;
+}
+.user-say .left-side img, .on-line .left-side img{
+	width: 68%;
+	border-radius: 55%;
+}
+.user-say .talk-about{
+	float: left;
+	width: 82%;
+}
+.talk-about .user-name{
+	color: #ff6600;
+	font-size: 1rem;
+}
+.talk-about .post-date{
+	float: right;
+	font-size: 0.7rem;
+	margin-right: 1rem;
+	line-height: 1.8rem;
+	color: #bbb;
+}
+.talk-about .content{
+	margin: 0.5rem 0.5rem 0.5rem auto;
+	line-height: 1.5rem;
+	font-size: 1rem;
+	color: #333;
+}
+.handle .btn, .publish .btn{
+	background-color: transparent;
+	border: 0.05rem #ff6600 solid;
+	border-radius: 0.3rem;
+	color: #ff6600;
+	padding: 0.2rem 0.6rem;
+	font-size: 0.86rem;
+}
+.talk-about .handle, .note .handle{
+	display: none;
+	float: right;
+	margin-right: 0.5rem;
+	text-align: right;
+}
+.talk-about .handle .btn, .note .handle .btn{
+	margin: 0.6rem 0.6rem auto auto;
+}
+.lowest{
+	height: 3rem;
+	line-height: 3rem;
+	margin: 0 3rem 3rem 3rem;
+	text-align: center;
+	background: url(../img/dian.jpg) left center repeat-x;
+}
+.lowest span{
+	background-color: #fff;
+	padding: 0 0.7rem;
+}
+.publish{
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	height: 3rem;
+	font-size: 0;
+	background: url(../img/close.png) center 5rem no-repeat;
+	background-color: #fff;
+	z-index: 99999;
+}
+.publish .isay{
+	width: 70%;
+	height: 2rem;
+	line-height: 2rem;
+	color: #555;
+	border-radius: 0.2rem;
+	border: 0.05rem #eee solid;
+	box-sizing: border-box;
+	box-shadow: 0 0 0.2rem #ddd inset;
+	font-family: "microsoft yahei";
+	margin-top: 0.5rem;
+	margin-left: 3%;
+	padding: 0 1rem;
+	font-size: 0.8rem;
+	vertical-align: middle;
+}
+.publish .btn{
+	height: 1.9rem;
+	width: 20%;
+	color: #fff;
+	margin-left: 3%;
+	margin-top: 0.5rem;
+	background-color: #ff6600;
+	box-sizing: border-box;
+	vertical-align: middle;
+}
+.on-line .userinfo{
+	float: left;
+	width: 82%;
+	height: 2.6rem;
+	line-height: 2.6rem;
+	font-size: 0;
+}
+.on-line .user-name{
+	font-size: 1rem;
+}
+.on-line .date{
+	color: #bbb;
+	font-size: 0.8rem;
+	margin-left: 1rem;
+}
+.userinfo .handle{
+	float: right;
+	margin-right: 1rem;
+	margin-top: 0.4rem;
+}
+.user-say .icon-anchor{
+	width: 21%;
+	font-size: 0.9rem;
+	background: url(../img/sprites.png) left -1.93rem no-repeat;
+	background-size: 1rem;
+	margin-left: 4%;
+	color: #999;
+}
+.user-say .note{
+	float: left;
+	width: 75%;
+}
+.bg-gray{
+	background-color: #f9f9f9!important;
+}
+.font-default{
+	color: #333!important;
+}
+.font-gray{
+	color: #999!important;
+}
+.btn-green{
+	border-color: #46b134!important;
+	color: #46b134!important;
+}
+/*各种尺寸的屏幕宽度*/
+@media screen and (max-width:768px){
+	html{
+		font-size: 9.25mm;
+	}
+}
+@media screen and (max-width:414px){
+	html{
+		font-size: 5mm;
+	}
+}
+@media screen and (max-width:375px){
+	html{
+		font-size: 4.52mm;
+	}
+}
+@media screen and (max-width:360px){
+	html{
+		font-size: 4.34mm;
+	}
+}
+@media screen and (max-width:320px){
+	html{
+		font-size: 3.85mm;
+	}
+}

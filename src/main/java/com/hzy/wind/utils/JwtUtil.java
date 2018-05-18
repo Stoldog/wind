@@ -37,6 +37,37 @@ public class JwtUtil {
      * JWT构建方法
      * 构建JSON WEB TOKEN
      */
+    public static <V> String createJWT(Claims claims, String base64Security,String name,V value)
+    {
+        //加密算法
+        SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
+
+
+        //生成签名密钥
+        byte[] apiKeySecretBytes = DatatypeConverter.parseBase64Binary(base64Security);
+        Key signingKey = new SecretKeySpec(apiKeySecretBytes, signatureAlgorithm.getJcaName());
+
+        //添加构成JWT的参数
+        JwtBuilder builder = Jwts.builder().setHeaderParam("typ", "JWT")
+                .claim("role", claims.get("role"))
+                .claim("room_id",claims.get("room_id"))
+                .claim("unique_name", claims.get("unique_name"))
+                .claim("user_id", claims.get("user_id"))
+                .claim(name,value)//执行修改操作
+                .setIssuer(claims.getIssuer())
+                .setAudience(claims.getAudience())
+                .signWith(signatureAlgorithm, signingKey);
+        //添加Token过期时间
+        builder.setExpiration(claims.getExpiration()).setNotBefore(claims.getNotBefore());
+
+        //生成JWT
+        return builder.compact();
+    }
+
+    /**
+     * JWT构建方法
+     * 构建JSON WEB TOKEN
+     */
     public static String createJWT(Integer userId, String name,String role,Long roomId,
                                    String audience, String issuer, long TTLMillis, String base64Security)
     {

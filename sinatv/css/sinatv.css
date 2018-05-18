@@ -1,0 +1,410 @@
+body{
+	margin: 0;
+	padding: 0;
+	font-size: 14px;
+	font-family: "microsoft yahei";
+	background-color: #232221;
+	overflow: hidden;
+}
+ul{
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+button, textarea{
+	outline: none;
+	cursor: pointer;
+}
+#exchange{
+	float: right;
+	width: 278px;
+	border-left: 1px #eee solid;
+	border-right: 1px #eee solid;
+	background-color: #fff;
+}
+#heading-group{
+	height: 80px;
+	background-color: #232221;
+	overflow: hidden;
+}
+#ifream{
+	background-color: #181716;
+	overflow: hidden;
+}
+.caption{
+	color: #fff;
+	height: 28px;
+	line-height: 28px;
+	font-size: 18px;
+	margin-left: 20px;
+	margin-top: 42px;
+	display: inline-block;
+}
+.actions{
+	float: right;
+}
+.icon-user{
+	display: inline-block;
+	vertical-align: top;
+	border-radius: 50%;
+	margin: auto 10px;
+}
+.user-post{
+	display: inline-block;
+	font-size: 12px;
+	color: #ff6600;
+}
+.actions .btn{
+	border: 1px #3f3d3b solid;
+	border-radius: 3px;
+	background-color: transparent;
+	color: #fff;
+	font-size: 12px;
+	font-family: "microsoft yahei";
+	height: 26px;
+	line-height: 24px;
+	padding: 0 10px;
+	vertical-align: top;
+	margin-top: 39px;
+	margin-left: 15px;
+	cursor: pointer;
+	outline: none;
+	transition: 0.3s all;
+}
+.actions .btn:hover{
+	background-color: #FF6600;
+	border: 1px #ff6600 solid;
+}
+.erweima{
+	width: 55px;
+	height: 55px;
+	margin: 12px 25px auto 20px;
+}
+.actions .icon-download{
+	background: url(../img/sprites.png) 6px 4px no-repeat;
+	padding-left: 30px;
+}
+.actions .icon-share{
+	background: url(../img/sprites.png) 6px -43px no-repeat;
+	padding-left: 28px;
+}
+.nav-tabs{
+	border-bottom: 1px #eee solid;
+	overflow: hidden;
+}
+.nav-tabs>li{
+	float: left;
+	width: 92px;
+	height: 42px;
+	line-height: 42px;
+	text-align: center;
+	cursor: pointer;
+	color: #333;
+}
+.nav-tabs>li.selected{
+	color: #ff6600;
+	border-bottom: 2px #ff6600 solid;
+	font-weight: bold;
+}
+.tab-content{
+	width: 100%;
+}
+.tab-content .tab-pane.active{
+	display: block;
+}
+.left-side{
+	float: left;
+	width: 48px;
+	text-align: center;
+}
+.user-say{
+	overflow-x: hidden;
+	overflow-y: auto;
+	padding-top: 10px;
+}
+.user-say li{
+	padding: 12px 0;
+	overflow: hidden;
+}
+.user-say li:hover{
+	background-color: #f9f9f9;
+}
+.stick{
+	background-color: #f9f9f9;
+	overflow: hidden;
+	padding: 13px 0;
+}
+.left-side .stick-badeg{
+	display: inline-block;
+	color: #fff;
+	width: 36px;
+	border-radius: 3px;
+	font-size: 12px;
+	line-height: 18px;
+	background: linear-gradient(to right, #fdc968, #ff853a);
+	filter: progid:DXImageTransform.Microsoft.gradient(gradientType = 1, startColorstr = #fdc968, endColorstr = #ff853a);
+}
+.tab-content .talk-about{
+	float: left;
+	width: 217px;
+	padding-right: 10px;
+	color: #333333;
+	font-size: 12px;
+	line-height: 17px;
+	position: relative;
+}
+.left-side .user-buddha{
+	border-radius: 50%;
+	width: 28px;
+	height: 28px;
+}
+.talk-about .fold{
+	float: right;
+}
+.talk-about .fold .packup, .talk-about .fold .unfold{
+	padding-left: 8px;
+	padding-right: 20px;
+	cursor: pointer;
+	color: #999;
+}
+.talk-about .fold .packup{
+	background: url(../img/packup.png) right center no-repeat;
+}
+.talk-about .fold .unfold{
+	display: none;
+	background: url(../img/unfold.png) right center no-repeat;
+}
+.talk-about .user-name{
+	color: #ff6600;
+}
+.talk-about .post-date{
+	float: right;
+	font-size: 10px;
+	color: #bbbbbb;
+}
+.talk-about p{
+	margin: 5px 0 0 0;
+	line-height: 16px;
+}
+.talk-about p img{
+	vertical-align: middle;
+}
+.talk-about img{
+	max-width: 100%;
+}
+.handle{
+	display: none;
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 49px;
+	padding-right: 10px;
+}
+.handle button, .handle span{
+	float: right;
+	font-size: 12px;
+	line-height: 18px;
+	background-color: #f9f9f9;
+	border: 1px #ff6600 solid;
+	border-radius: 3px;
+	color: #ff6600;
+	padding: 0 5px;
+	margin: 2px auto;
+	cursor: pointer;
+}
+.user-say li:hover .handle, .notebook li:hover .handle{
+	display: block;
+}
+.publish{
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	width: 278px;
+	height: 155px;
+	background-color: #fff;
+}
+.set{
+	text-align: right;
+	color: #bbb;
+	font-size: 12px;
+	margin-right: 10px;
+	height: 30px;
+	line-height: 30px;
+}
+.set input[type='checkbox']{
+	vertical-align: middle;
+	margin-left: 10px;
+}
+.textarea{
+	width: 235px;
+	height: 60px;
+	margin: auto 10px 5px 13px;
+	padding: 8px;
+	border: 1px #eee solid;
+	box-shadow: 0 0 5px #eee inset;
+	resize: none;
+	color: #555;
+	font-family: "microsoft yahei";
+}
+.textarea:focus{
+	border-color: #ff6600;
+	box-shadow: none;
+}
+.btn-publish{
+	width: 80px;
+	height: 26px;
+	color: #fff;
+	font-size: 12px;
+	background-color: #ff6600;
+	border: 1px #ff6600 solid;
+	border-radius: 3px;
+}
+.publish .extent{
+	margin-left: 13px;
+	font-size: 12px;
+	color: #bbb;
+}
+.publish .pull-right{
+	float: right;
+	margin-right: 12px;
+}
+.publish .upload{
+	display: inline-block;
+	width: 23px;
+	height: 18px;
+	position: relative;
+	background: url(../img/sprites.png) center -94px no-repeat;
+	vertical-align: middle;
+	margin-right: 10px;
+	overflow: hidden;
+}
+.publish .upload input{
+	cursor: pointer;
+}
+.publish .local{
+	position: absolute;
+    overflow: hidden;
+    right: 0;
+    top: 0;
+    opacity: 0;
+}
+.publish .smilies{
+	width: 20px;
+	height: 20px;
+	border: none;
+	padding: 0;
+	background: url(../img/sprites.png) center -154px no-repeat;
+	vertical-align: middle;
+	margin-right: 10px;
+}
+.on-line li, .notebook li{
+	padding: 12px 0;
+	overflow: hidden;
+}
+.on-line li:hover, .notebook li:hover{
+	background-color: #f9f9f9;
+}
+.on-line-icon{
+	width: 56px;
+	height: 35px;
+	float: left;
+	text-align: right;
+	border-radius: 50%;
+}
+.on-line-icon img{
+	height: 35px;
+}
+.on-line-text{
+	position: relative;
+	float: left;
+	width: 212px;
+	font-size: 12px;
+	height: 35px;
+	line-height: 35px;
+	margin-left: 10px;
+	color: #999;
+}
+.on-line-text .date{
+	font-size: 10px;
+	margin-left: 5px;
+	color: #bbb;
+}
+.on-line li:hover .handle{
+	margin-top: 5px;
+	display: block;
+}
+.handle .btn-orange{
+	color: #ff6600!important;
+	border-color: #ff6600!important;
+}
+.handle .btn-green{
+	color: #46b134!important;
+	border-color: #46b134!important;
+}
+.font-gray{
+	color: #dedede!important;
+}
+.font-orange{
+	color: #ff6600!important;
+}
+.font-orange-yellow{
+	color: #ff9600!important;
+}
+.anchor{
+	float: left;
+	width: 64px;
+	font-size: 10px;
+	color: #999;
+	text-align: right;
+	line-height: 20px;
+}
+.icon-anchor{
+	display: inline-block;
+	vertical-align: top;
+	width: 15px;
+	height: 17px;
+	background: url(../img/sprites.png) -6px bottom no-repeat;
+}
+.note{
+	float: left;
+	width: 204px;
+	margin-left: 10px;
+	color: #333;
+	line-height: 20px;
+	position: relative;
+}
+.note img{
+	vertical-align: middle;
+}
+.qqFace{
+	width: 278px;
+	height: 140px;
+	border: 1px #ccc solid;
+	position: fixed;
+	right: 0;
+	bottom: 45px;
+	background-color: #fff;
+	overflow-x: hidden;
+	overflow-y: auto;
+	display: none;
+	z-index: 1000;
+}
+.qqFace table td{
+	border-collapse: collapse;
+	padding: 3px;
+	cursor: pointer;
+}
+.allSilent{
+	width: 52px;
+	height: 15px;
+	line-height: 15px;
+	margin: 15px;
+	padding-left: 32px;
+	position: fixed;
+	right: 0;
+	bottom: 0;
+	font-size: 12px;
+	color: #bbb;
+	background: url(../img/silent.png) left center no-repeat;
+	cursor: pointer;
+}

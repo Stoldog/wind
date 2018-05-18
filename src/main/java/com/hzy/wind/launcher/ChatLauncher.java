@@ -5,15 +5,17 @@ import com.corundumstudio.socketio.listener.ConnectListener;
 import com.corundumstudio.socketio.listener.DataListener;
 import com.corundumstudio.socketio.listener.DisconnectListener;
 import com.hzy.wind.base.entity.BasePacket;
-import com.hzy.wind.listener.MessageEventListener;
+import com.hzy.wind.listener.*;
 import com.hzy.wind.type.Event;
 import com.hzy.wind.type.MesType;
+import com.hzy.wind.type.Role;
 import com.hzy.wind.utils.JwtUtil;
 import io.jsonwebtoken.Claims;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.text.SimpleDateFormat;
+import java.util.UUID;
 
 
 /**
@@ -54,25 +56,23 @@ public class ChatLauncher {
                     return;
                 }
                 // 3. 判断是否重复加入
-                /*for (SocketIOClient socketIOClient : socketIONamespace.getAllClients()) {
-                    //如果客户端为自己 则跳过
-                    if(socketIOClient.getSessionId().toString().equals(client.getSessionId().toString())){continue;}
-                    Claims claims1 = JwtUtil.parseJWT(socketIOClient.getHandshakeData().getSingleUrlParam("token"),secretKey);
-                    boolean checkToken = claims1.get("user_id",Long.class).longValue()==claims.get("user_id",Long.class).longValue();
-                    boolean checkRoomId = socketIOClient.getHandshakeData().getSingleUrlParam("roomId").equals(roomStr);
-                    //如果token一致，且roomId一致，则之前的(不同的浏览器)客户端退出
-                    if(!checkToken || !checkRoomId){
-                        continue;
+                if(socketIONamespace.getRoomClient(roomStr)!=null){
+                    for (UUID uuid : socketIONamespace.getRoomClient(roomStr)) {
+                        SocketIOClient roomClient = socketIONamespace.getClient(uuid);
+                        Claims clientClaims = JwtUtil.parseJWT(roomClient.getHandshakeData().getSingleUrlParam("token"),secretKey);
+                        if(!(clientClaims.get("user_id",Long.class).longValue()==claims.get("user_id",Long.class).longValue())){
+                            continue;
+                        }
+                        roomClient.disconnect();
                     }
-                    socketIOClient.disconnect();
-                }*/
-                for (String s : client.getAllRooms()) {
-                    System.out.println("Old Room: "+s);
-                    if(s.equals(NAME_SPACE)){continue;}
-                    client.leaveRoom(s);
-                    client.sendEvent("leaveroom");
                 }
+                boolean isPower = Role.ROOM_ADMIN.getName().equalsIgnoreCase(claims.get("role",String.class));
+                //增加权限
+                client.getHandshakeData().getHttpHeaders().add("isPower",isPower);
                 client.joinRoom(roomId.toString());
+                //向堂堂网发送记录请求
+
+
                 // 4. 广播
                 String welcomeStr = "有新用户："+claims.get("unique_name",String.class)+"加入当前房间  【"+roomId+"】  ！总人数： "+socketIONamespace.getAllClients().size()+"------"+client.getSessionId();
                 socketIONamespace.getRoomOperations(roomId.toString()).sendEvent(Event.SYSTEM.getName(),new BasePacket(MesType.START,welcomeStr,"系统消息",0));
@@ -85,53 +85,22 @@ public class ChatLauncher {
                 String tokenStr = client.getHandshakeData().getSingleUrlParam("token");
                 Claims claims = JwtUtil.parseJWT(tokenStr,secretKey);
                 Long roomId = claims.get("room_id",Long.class);
+                //向堂堂网发送记录请求
+
+
+                //广播
                 String endStr = "有用户："+claims.get("unique_name",String.class)+"退出当前房间  【"+roomId+"】  ！总人数： "+socketIONamespace.getAllClients().size()+"------"+client.getSessionId();
                 socketIONamespace.getRoomOperations(roomId.toString()).sendEvent(Event.SYSTEM.getName(),new BasePacket(MesType.END,endStr,"系统消息",0));
             }
         });
-        //监听其他的事件
-        socketIONamespace.addEventListener("join", BasePacket.class, new DataListener<BasePacket>() {
-            @Override
-            public void onData(SocketIOClient client, BasePacket data, AckRequest ackSender) throws Exception {
-
-            }
-        });
+        //监听其他事件
         socketIONamespace.addEventListener(Event.MESSAGE.getName(), BasePacket.class, new MessageEventListener());
-        socketIONamespace.addEventListener(Event.SILENCE.getName(), BasePacket.class, new DataListener<BasePacket>() {
-            @Override
-            public void onData(SocketIOClient client, BasePacket data, AckRequest ackSender) throws Exception {
-
-            }
-        });
-        socketIONamespace.addEventListener(Event.UNSILENCE.getName(), BasePacket.class, new DataListener<BasePacket>() {
-            @Override
-            public void onData(SocketIOClient client, BasePacket data, AckRequest ackSender) throws Exception {
-
-            }
-        });
-        socketIONamespace.addEventListener(Event.TOP.getName(), BasePacket.class, new DataListener<BasePacket>() {
-            @Override
-            public void onData(SocketIOClient client, BasePacket data, AckRequest ackSender) throws Exception {
-
-            }
-        });
-        socketIONamespace.addEventListener(Event.RECALL.getName(), BasePacket.class, new DataListener<BasePacket>() {
-            @Override
-            public void onData(SocketIOClient client, BasePacket data, AckRequest ackSender) throws Exception {
-
-            }
-        });
-        socketIONamespace.addEventListener(Event.NOTE.getName(), BasePacket.class, new DataListener<BasePacket>() {
-            @Override
-            public void onData(SocketIOClient client, BasePacket data, AckRequest ackSender) throws Exception {
-
-            }
-        });
+        socketIONamespace.addEventListener(Event.SILENCE.getName(), BasePacket.class, new SilenceEventListener());
+        socketIONamespace.addEventListener(Event.UNSILENCE.getName(), BasePacket.class, new UnSilenceEventListener());
+        socketIONamespace.addEventListener(Event.TOP.getName(), BasePacket.class, new TopEventListener());
+        socketIONamespace.addEventListener(Event.RECALL.getName(), BasePacket.class, new RecallEventListener());
+        socketIONamespace.addEventListener(Event.NOTE.getName(), BasePacket.class, new NoteEventListener());
 
         server.start();
-
-        Thread.sleep(Integer.MAX_VALUE);
-
-        server.stop();
     }
 }

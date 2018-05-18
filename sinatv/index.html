@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>直播</title>
+		<link rel="stylesheet" href="css/jquery.mCustomScrollbar.css" />
+		<link rel="stylesheet" type="text/css" href="css/sinatv.css"/>
+		<link rel="stylesheet" type="text/css" href="css/cssreset-min.css"/>
+		<link rel="stylesheet" type="text/css" href="css/toastr.min.css"/>
+		<script type="text/javascript" src="js/jquery-1.11.0.js" ></script>
+		<script type="text/javascript">
+			$(function(){
+				var head = $('#heading-group'), wHeight = $(window).height();
+				$('#ifream').height(wHeight-head.height()).width($(window).width()-280);
+				$('#ifream video').height(wHeight-80).width($(window).width()-280);
+				$('#exchange').height(wHeight);
+				$('.user-say').height(wHeight-$('.stick').outerHeight()-210);
+				$('.on-line').height(wHeight-90);
+				$('.notebook').height(wHeight-200);
+			});
+		</script>
+	</head>
+	<body>
+		<div id="exchange">
+			<ul class="nav-tabs">
+				<li class="selected">交流</li>
+				<li>在线(233)</li>
+				<li>笔记</li>
+			</ul>
+			<div class="tab-content">
+				<div class="tab-pane active">
+					<div class="stick">
+						<div class="left-side">
+							<span class="stick-badeg">置顶</span>
+						</div>
+						<div class="talk-about">置顶文字置顶文字置顶文字置顶文字置顶文字可折行可折行可置顶文字顶文字置顶文字置顶文字可折行可折行可置顶文字置顶文字置顶文字置置顶文字置顶文字置顶文字可折行可折行可置顶文字置顶文字置顶文<span class="fold"><span class="packup">折叠</span><span class="unfold">展开</span></span>
+						</div>
+					</div>
+					<ul class="user-say content_2">
+						<li>
+							<div class="left-side"><img class="user-buddha" src="img/icon-user.png" /></div>
+							<div class="talk-about">
+								<div class="user-name">DJJJJJ老师<span class="post-date">4月23日 12:30:12</span></div>
+								<p>同学们课本提前预习一下。看一下书p3目录。</p>
+								<div class="handle">
+									<span>置顶</span>
+									<span class="del">删除</span>
+								</div>
+							</div>
+						</li>
+						<li>
+							<div class="left-side"><img class="user-buddha" src="img/icon-user.png" /></div>
+							<div class="talk-about">
+								<div class="user-name font-orange-yellow">助教-233<span class="post-date">4月23日 12:30:12</span></div>
+								<p><img src="img/zhujiao.png" /></p>
+								<div class="handle">
+									<span>置顶</span>
+									<span class="del">删除</span>
+								</div>
+							</div>
+						</li>
+						<li>
+							<div class="left-side"><img class="user-buddha" src="img/icon-user.png" /></div>
+							<div class="talk-about">
+								<div class="user-name">我<span class="post-date">5分钟前</span></div>
+								<p>老师，这个题怎么做？</p>
+								<div class="handle">
+									<span>置顶</span>
+									<span class="del">删除</span>
+								</div>
+							</div>
+						</li>
+					</ul>
+					<div class="publish">
+						<div class="set">
+							<label><input type="checkbox" />内容置顶</label>
+							<label><input type="checkbox" />只看老师</label>
+						</div>
+						<textarea class="textarea" id="saytext"></textarea>
+						<span class="extent">0/300</span>
+						<div class="pull-right">
+							<div class="upload">
+								<input type="file" class="local" title="本地图片" accept="image/gif,image/jpeg,image/jpg,image/png,image/svg"></input>
+							</div>
+							<button class="smilies"></button>
+							<button class="btn-publish">发送</button>
+						</div>
+					</div>
+				</div>
+				<div class="tab-pane">
+					<ul class="on-line content_2">
+						<li>
+							<div class="on-line-icon"><img src="img/icon-on-line.png" /></div>
+							<div class="on-line-text">
+								<span class="font-orange">DJJJJJ老师</span>
+								<span class="date">4月23日 12:30:12</span>
+							</div>
+						</li>
+						<li>
+							<div class="on-line-icon"><img src="img/icon-on-line.png" /></div>
+							<div class="on-line-text">
+								<span class="font-orange-yellow">助教-233</span>
+								<span class="date">4月23日 12:30:12</span>
+							</div>
+						</li>
+						<li>
+							<div class="on-line-icon"><img src="img/icon-on-line.png" /></div>
+							<div class="on-line-text">
+								<span class="name">周弘厚</span>
+								<div class="handle"><span class="btn btn-orange">禁言</span></div>
+							</div>
+						</li>
+						<li>
+							<div class="on-line-icon"><img src="img/icon-on-line.png" /></div>
+							<div class="on-line-text">
+								<span class="name font-gray">周弘厚</span>
+								<div class="handle"><span class="btn btn-green">解禁</span></div>
+							</div>
+						</li>
+						<li>
+							<div class="on-line-icon"><img src="img/icon-on-line.png" /></div>
+							<div class="on-line-text">
+								<span class="name font-gray">夏高逸</span>
+								<div class="handle"><span class="btn btn-green">解禁</span></div>
+							</div>
+						</li>
+						<li>
+							<div class="on-line-icon"><img src="img/icon-on-line.png" /></div>
+							<div class="on-line-text">
+								<span class="name">周弘厚</span>
+								<div class="handle"><span class="btn btn-orange">禁言</span></div>
+							</div>
+						</li>
+						<li>
+							<div class="on-line-icon"><img src="img/icon-on-line.png" /></div>
+							<div class="on-line-text">
+								<span class="name">周弘厚</span>
+								<div class="handle"><span class="btn btn-orange">禁言</span></div>
+							</div>
+						</li>
+						<li>
+							<div class="on-line-icon"><img src="img/icon-on-line.png" /></div>
+							<div class="on-line-text">
+								<span class="name">周弘厚</span>
+								<span class="date">4月23日 12:30:12</span>
+								<div class="handle"><span class="btn btn-orange">禁言</span></div>
+							</div>
+						</li>
+						<li>
+							<div class="on-line-icon"><img src="img/icon-on-line.png" /></div>
+							<div class="on-line-text">
+								<span class="name">周弘厚</span>
+								<div class="handle"><span class="btn btn-orange">禁言</span></div>
+							</div>
+						</li>
+						<li>
+							<div class="on-line-icon"><img src="img/icon-on-line.png" /></div>
+							<div class="on-line-text">
+								<span class="name">周弘厚</span>
+								<div class="handle"><span class="btn btn-orange">禁言</span></div>
+							</div>
+						</li>
+						<li>
+							<div class="on-line-icon"><img src="img/icon-on-line.png" /></div>
+							<div class="on-line-text">
+								<span class="name">周弘厚</span>
+								<div class="handle"><span class="btn btn-orange">禁言</span></div>
+							</div>
+						</li>
+						<li>
+							<div class="on-line-icon"><img src="img/icon-on-line.png" /></div>
+							<div class="on-line-text">
+								<span class="name">周弘厚</span>
+								<div class="handle"><span class="btn btn-orange">禁言</span></div>
+							</div>
+						</li>
+						<li>
+							<div class="on-line-icon"><img src="img/icon-on-line.png" /></div>
+							<div class="on-line-text">
+								<span class="name">周弘厚</span>
+								<div class="handle"><span class="btn btn-orange">禁言</span></div>
+							</div>
+						</li>
+						<li>
+							<div class="on-line-icon"><img src="img/icon-on-line.png" /></div>
+							<div class="on-line-text">
+								<span class="name">周弘厚</span>
+								<div class="handle"><button class="btn btn-orange">禁言</button></div>
+							</div>
+						</li>
+					</ul>
+					<div class="allSilent" status="true">全体禁言</div>
+				</div>
+				<div class="tab-pane">
+					<ul class="notebook content_2">
+						<li>
+							<div class="anchor"><i class="icon-anchor"></i>03:22</div>
+							<div class="note">
+								Yes,it is.——一般疑问句的肯定<br/>回答<br/>拓展：单词辅音结尾+元音开头
+								<div class="handle"><span class="del">删除</span></div>
+							</div>
+						</li>
+						<li>
+							<div class="anchor"><i class="icon-anchor"></i>06:30</div>
+							<div class="note">
+								excuse=pardon
+								<div class="handle"><span class="del">删除</span></div>
+							</div>
+						</li>
+						<li>
+							<div class="anchor"><i class="icon-anchor"></i>06:30</div>
+							<div class="note">
+								this 较近<br/>
+								that 较远
+								<div class="handle"><span class="del">删除</span></div>
+							</div>
+						</li>
+					</ul>
+					<div class="publish">
+						<div class="set">
+							<label><input type="checkbox" />公开笔记</label>
+							<label><input type="checkbox" />显示全部笔记</label>
+						</div>
+						<textarea class="textarea" id="publishbox"></textarea>
+						<span class="extent">0/300</span>
+						<div class="pull-right">
+							<div class="upload">
+								<input type="file" class="local" title="本地图片" accept="image/gif,image/jpeg,image/jpg,image/png,image/svg"></input>
+							</div>
+							<button class="smilies"></button>
+							<button class="btn-publish">发送</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="heading-group">
+			<div class="caption">
+				堂堂网直播【第1课】国际音标+自然拼读法
+				<img class="icon-user" src="img/icon-user.png" />
+				<span class="user-post">DJJJJJ老师</span>
+			</div>
+			<div class="actions">
+				<button class="btn icon-download">资料下载</button>
+				<button class="btn icon-share">分享课程</button>
+				<img class="erweima" src="img/erweima.png" />
+			</div>
+		</div>
+		<div id="ifream">
+			<video controls="" autoplay="autoplay" name="media"><source src="http://mvvideoshare2.meitudata.com/5addae6de2f407092.mp4" type="video/mp4"></video>
+		</div>
+		<script type="text/javascript" src="js/jquery.mCustomScrollbar.concat.min.js" ></script>
+		<script type="text/javascript" src="js/toastr.min.js" ></script>
+		<script type="text/javascript" src="js/jquery.qqFace.js" ></script>
+		<script type="text/javascript">
+			$(function(){
+				//自定义滚动条
+				$(".content_2").mCustomScrollbar({
+					scrollInertia:150
+				});
+				//表情
+				$('.smilies').eq(0).qqFace({
+			        assign:'saytext',
+			        path:'arclist/'
+			    });
+			    $('.smilies').eq(1).qqFace({
+			        assign:'publishbox',
+			        path:'arclist/'
+			    });
+				//选项卡
+				var tab = $('.nav-tabs>li');
+				$('.tab-pane.active').siblings().hide();
+				tab.click(function(){
+					var index = tab.index(this);
+					$(this).addClass('selected').siblings().removeClass('selected');
+					$('.tab-pane').eq(index).show().siblings().hide();
+				});
+				//获取textarea长度
+				$('textarea').keyup(function(){
+					var index = $('textarea').index(this);
+					var length = $(this).val().length;
+					$('.extent').eq(index).html(length+'/300');
+				});
+				//折叠
+				$('.fold').click(function(e){
+					$('.user-say').height($(window).height()-$('.stick').outerHeight()-210);
+					$('.user-say').mCustomScrollbar('update');
+					$('.packup, .unfold').toggle();
+				});
+				//解禁和禁言
+				$('.on-line-text').click(function(e){
+					var target = e.target;
+					if(target.className.indexOf('btn-orange') > 0){
+						$(this).find('.btn').addClass('btn-green').removeClass('btn-orange').html('解禁');
+						$(this).children().first().addClass('font-gray');
+					}else if(target.className.indexOf('btn-green') > 0){
+						$(this).find('.btn').addClass('btn-orange').removeClass('btn-green').html('禁言');
+						$(this).children().first().removeClass('font-gray');
+					}
+				});
+				//全体禁言解禁
+				$('.allSilent').click(function(){
+					if($(this).attr('status') == 'true'){
+						$('.name').addClass('font-gray');
+						$('.on-line-text .btn').addClass('btn-green').removeClass('btn-orange').html('解禁');
+						$(this).attr('status', 'false').css('background-image','url(img/silent-off.png)');
+					}else{
+						$('.name').removeClass('font-gray');
+						$('.on-line-text .btn').addClass('btn-orange').removeClass('btn-green').html('禁言');
+						$(this).attr('status', 'true').css('background-image','url(img/silent.png)');
+					}
+				});
+				//发表交流
+				var publish = $('.btn-publish');
+				publish.eq(0).click(function(){
+					var textareaVal = $('.textarea').eq(0).val(),
+						nowTime = new Date().Format("MM月dd日 HH:mm:ss");
+					
+					if(textareaVal == ""){toastr.error('请输入你的交流！','发送失败'); return false;}
+					else if(textareaVal.length > 300){toastr.error('输入的内容过长啦！','发送失败'); return false;}
+					$('.user-say .mCSB_container').append('<li><div class="left-side"><img class="user-buddha" src="img/icon-user.png" /></div><div class="talk-about"><div class="user-name">我<span class="post-date">'+nowTime+'</span></div><p>'+replace_em(textareaVal)+'</p><div class="handle"><span>置顶</span><span class="del">删除</span></div></li>');
+					$('.user-say').mCustomScrollbar('update');
+					$('.user-say').mCustomScrollbar('scrollTo', 'bottom', {scrollInertia: 500});
+					$('.textarea').eq(0).val('');
+				});
+				//ctrl+回车换行键发表交流
+				$('.textarea').eq(0).keydown(function(e){
+					var keycode = e.keyCode;
+					if(e.ctrlKey || keycode != 13){
+						if(keycode == 13)
+						publish.eq(0).click();
+					}
+				});
+				//删除交流
+				$('.user-say').on('click', '.del', function(){
+					var index = $('.user-say .del').index(this);
+					$('.user-say li').eq(index).animate({'margin-left': '-280px'}, 300, function(){
+						$(this).slideUp(300, function(){
+							$('.user-say').mCustomScrollbar('update');
+						});
+					});
+				});
+				//做笔记
+				publish.eq(1).click(function(){
+					var textareaVal = $('.textarea').eq(1).val(),
+						nowTime = new Date().Format("yyyy-MM-dd");
+						$('.set').eq(1).find('input[type="checkbox"]')
+					
+					if(textareaVal == ""){toastr.error('请输入你的笔记！','发送失败'); return false;}
+					else if(textareaVal.length > 300){toastr.error('笔记的内容过长啦！','发送失败'); return false;}
+					$('.notebook .mCSB_container').append('<li><div class="anchor"><i class="icon-anchor"></i>06:30</div><div class="note">'+replace_em(textareaVal)+'<div class="handle"><span class="del">删除</span></div></div></li>');
+					$('.notebook').mCustomScrollbar('update');
+					$('.user-say').mCustomScrollbar('scrollTo', 'bottom', {scrollInertia: 500});
+					toastr.success('添加笔记','笔记添加成功');
+				});
+				//删除笔记
+				$('.notebook').on('click', '.del', function(){
+					var index = $('.notebook .del').index(this);
+					$('.notebook li').eq(index).animate({'margin-left': '-280px'}, 300, function(){
+						$(this).slideUp(300, function(){
+							$('.notebook').mCustomScrollbar('update');
+						});
+					});
+				});
+				//获取时间
+				Date.prototype.Format = function (fmt) {
+				    var o = {
+				        "M+": this.getMonth() + 1, //月份
+				        "d+": this.getDate(), //日
+				        "H+": this.getHours(), //小时
+				        "m+": this.getMinutes(), //分
+				        "s+": this.getSeconds(), //秒
+				        "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+				        "S": this.getMilliseconds() //毫秒
+				    };
+				    if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));    
+				    for (var k in o)
+				    if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+				    return fmt;
+				}
+				//表情文字转化图片
+				function replace_em(str){
+					str = str.replace(/\</g,'&lt;');
+					str = str.replace(/\>/g,'&gt;');
+					str = str.replace(/\n/g,'<br/>');
+					str = str.replace(/\[em_([0-9]*)\]/g,'<img src="arclist/$1.gif" border="0" />');
+					return str;
+				}
+			});
+		</script>
+	</body>
+</html>

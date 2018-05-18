@@ -17,9 +17,14 @@ public class MessageEventListener extends TangtBaseListener {
 
     @Override
     public void onData(SocketIOClient client, BasePacket data, AckRequest ackSender) throws Exception {
-        //判断是否为高亮消息
+        //获取token
         String token = client.getHandshakeData().getSingleUrlParam("token");
         Claims claims = getClaimsByToken(token);
+        //判断是否被禁言
+        if(!checkSilenceAndSend(client,claims)){
+            return;
+        }
+        //判断是否高亮
         boolean isPower = isPowerByClaims(claims);
         String roomStr = client.getHandshakeData().getSingleUrlParam("roomId");
         //设置群发消息的结构
@@ -28,6 +33,6 @@ public class MessageEventListener extends TangtBaseListener {
         data.setSendManId(getUserIdByClaims(claims).intValue());
         data.setType((isPower?MesType.HIGH_LIGHT.getTypeCode():MesType.GENERAL.getTypeCode()));
         //广播消息
-        broadcastMes(client,Long.valueOf(roomStr),Event.MESSAGE.getName(),data);
+        broadcastMes(Event.MESSAGE,client,Long.valueOf(roomStr),data);
     }
 }
