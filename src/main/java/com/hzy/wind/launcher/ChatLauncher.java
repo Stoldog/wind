@@ -5,18 +5,21 @@ import com.corundumstudio.socketio.listener.ConnectListener;
 import com.corundumstudio.socketio.listener.DataListener;
 import com.corundumstudio.socketio.listener.DisconnectListener;
 import com.hzy.wind.base.entity.BasePacket;
+import com.hzy.wind.entity.UserData;
 import com.hzy.wind.listener.*;
 import com.hzy.wind.type.Event;
 import com.hzy.wind.type.MesType;
 import com.hzy.wind.type.Role;
+import com.hzy.wind.utils.HttpClientUtil;
 import com.hzy.wind.utils.JwtUtil;
 import io.jsonwebtoken.Claims;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 
+import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
-import java.util.UUID;
+import java.util.*;
 
 
 /**
@@ -72,9 +75,24 @@ public class ChatLauncher {
                 client.getHandshakeData().getHttpHeaders().add("isPower",isPower);
                 client.joinRoom(roomId.toString());
                 //向堂堂网发送记录请求
-
+                String resUrl = "";
+                Map<String,Object> params = new HashMap<>();
+                try {
+                    String tangtData = HttpClientUtil.httpPostRequest(resUrl,params);
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                    client.disconnect();
+                }
+                List<UserData> userDataList = new ArrayList<>();
                 //获取当前在线人数(人员基本信息)
-
+                for (UUID uuid : socketIONamespace.getRoomClient(roomId.toString())) {
+                    Claims tempClaims = JwtUtil.parseJWT(socketIONamespace.getClient(uuid).getHandshakeData().getSingleUrlParam("token"),secretKey);
+                    UserData userData = new UserData();
+                    userData.setUserId(tempClaims.get("user_id",int.class));
+                    userData.setUserName(tempClaims.get("unique_name",String.class));
+                    userData.setSilent((tempClaims.get("role",String.class).equals(Role.SILENT_MAN.getName())?true:false));
+                    userDataList.add(userData);
+                }
                 //获取笔记
 
                 // 4. 广播
@@ -90,8 +108,14 @@ public class ChatLauncher {
                 Claims claims = JwtUtil.parseJWT(tokenStr,secretKey);
                 Long roomId = claims.get("room_id",Long.class);
                 //向堂堂网发送记录请求
-
-
+                String resUrl = "";
+                Map<String,Object> params = new HashMap<>();
+                try {
+                    String resData = HttpClientUtil.httpPostRequest(resUrl,params);
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                    client.disconnect();
+                }
                 //广播
                 String endStr = "有用户："+claims.get("unique_name",String.class)+"退出当前房间  【"+roomId+"】  ！总人数： "+socketIONamespace.getAllClients().size()+"------"+client.getSessionId();
                 socketIONamespace.getRoomOperations(roomId.toString()).sendEvent(Event.SYSTEM.getName(),new BasePacket(MesType.END,endStr,"系统消息",0));

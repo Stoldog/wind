@@ -9,12 +9,12 @@ import com.hzy.wind.entity.SilenceData;
 import com.hzy.wind.type.Event;
 import com.hzy.wind.type.MesType;
 import com.hzy.wind.type.Role;
+import com.hzy.wind.utils.HttpClientUtil;
 import com.hzy.wind.utils.JwtUtil;
 import io.jsonwebtoken.Claims;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.io.UnsupportedEncodingException;
+import java.util.*;
 
 /**
  * Created by EduHzy-019 on 2018-05-18.
@@ -53,10 +53,20 @@ public class UnSilenceEventListener extends TangtBaseListener{
         //获取需要取消禁言的客户端
         SocketIOClient silenceClient = socketIOClient.getNamespace().getClient(UUID.fromString(clientUUID));
         Claims silenceClaims = getClaimsByToken(silenceClient.getHandshakeData().getSingleUrlParam("token"));
-        List<String> params = new ArrayList<>();
+        List<String> paramList = new ArrayList<>();
         //修改需要取消禁言的客户端的token权限符
-        params.add(JwtUtil.createJWT(silenceClaims,secretKey,"role",Role.VISITOR.getName()));
-        silenceClient.getHandshakeData().getUrlParams().put("token",params);
+        paramList.add(JwtUtil.createJWT(silenceClaims,secretKey,"role",Role.VISITOR.getName()));
+        silenceClient.getHandshakeData().getUrlParams().put("token",paramList);
+
+        //向堂堂网发送请求
+        String resUrl = "";
+        Map<String,Object> params = new HashMap<>();
+        try {
+            String tangtData = HttpClientUtil.httpPostRequest(resUrl,params);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            socketIOClient.disconnect();
+        }
     }
 
     /**
@@ -75,6 +85,15 @@ public class UnSilenceEventListener extends TangtBaseListener{
             //修改需要取消禁言的客户端的token权限符
             params.add(JwtUtil.createJWT(claims1,secretKey,"role",Role.VISITOR.getName()));
             ioClient.getHandshakeData().getUrlParams().put("token",params);
+        }
+        //向堂堂网发送请求
+        String resUrl = "";
+        Map<String,Object> params = new HashMap<>();
+        try {
+            String tangtData = HttpClientUtil.httpPostRequest(resUrl,params);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            socketIOClient.disconnect();
         }
     }
 }
