@@ -21,7 +21,7 @@ public class MessageEventListener extends TangtBaseListener {
         String token = client.getHandshakeData().getSingleUrlParam("token");
         Claims claims = getClaimsByToken(token);
         //判断是否被禁言
-        if(!checkSilenceAndSend(client,claims)){
+        if(checkSilenceAndSend(client,claims)){
             return;
         }
         //判断是否高亮

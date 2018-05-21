@@ -14,7 +14,7 @@ public class TokenController {
     public static final String secretKey = "1&$OAlAsh!wJCIJU";
 
     @ApiOperation(value = "生成TOKEN",notes = "为客户端生成TOKEN")
-    @CrossOrigin(origins = {"http://192.168.0.67:8000","http://localhost:8000"})
+    @CrossOrigin(origins = {"http://192.168.0.67:8000","http://localhost:8000","http://192.168.0.67:8080","http://localhost:8080"})
     @PostMapping("generate")
     public String generateToken(@RequestBody TokenPOJO pojo){
         long TTLMillis = (pojo.getTTLMillis()>0?pojo.getTTLMillis():1000L*60L*60L);

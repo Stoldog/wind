@@ -13,6 +13,7 @@ import com.hzy.wind.utils.JwtUtil;
 import io.jsonwebtoken.Claims;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.StringUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.UUID;
@@ -72,9 +73,12 @@ public class ChatLauncher {
                 client.joinRoom(roomId.toString());
                 //向堂堂网发送记录请求
 
+                //获取当前在线人数(人员基本信息)
+
+                //获取笔记
 
                 // 4. 广播
-                String welcomeStr = "有新用户："+claims.get("unique_name",String.class)+"加入当前房间  【"+roomId+"】  ！总人数： "+socketIONamespace.getAllClients().size()+"------"+client.getSessionId();
+                String welcomeStr = "【"+claims.get("unique_name",String.class)+"】进入了直播室"  ;
                 socketIONamespace.getRoomOperations(roomId.toString()).sendEvent(Event.SYSTEM.getName(),new BasePacket(MesType.START,welcomeStr,"系统消息",0));
             }
         });
