@@ -1,5 +1,6 @@
 package com.hzy.wind.launcher;
 
+import com.alibaba.fastjson.JSON;
 import com.corundumstudio.socketio.*;
 import com.corundumstudio.socketio.listener.ConnectListener;
 import com.corundumstudio.socketio.listener.DataListener;
@@ -34,7 +35,7 @@ public class ChatLauncher {
     public static void main(String[] args) throws InterruptedException {
 
         Configuration config = new Configuration();
-        config.setHostname("localhost");
+        config.setHostname("192.168.0.67");
         config.setPort(9092);
 
         final SocketIOServer server = new SocketIOServer(config);
@@ -71,8 +72,10 @@ public class ChatLauncher {
                     }
                 }
                 boolean isPower = Role.ROOM_ADMIN.getName().equalsIgnoreCase(claims.get("role",String.class));
+                Date enterTime = new Date();
                 //增加权限
-                client.getHandshakeData().getHttpHeaders().add("isPower",isPower);
+                client.getHandshakeData().getHttpHeaders().add("isPower",(isPower?1:0));
+                client.getHandshakeData().getHttpHeaders().add("enterTime",enterTime.getTime());
                 client.joinRoom(roomId.toString());
                 //向堂堂网发送记录请求
                 String resUrl = "";
@@ -86,18 +89,26 @@ public class ChatLauncher {
                 List<UserData> userDataList = new ArrayList<>();
                 //获取当前在线人数(人员基本信息)
                 for (UUID uuid : socketIONamespace.getRoomClient(roomId.toString())) {
-                    Claims tempClaims = JwtUtil.parseJWT(socketIONamespace.getClient(uuid).getHandshakeData().getSingleUrlParam("token"),secretKey);
+                    SocketIOClient socketIOClient = socketIONamespace.getClient(uuid);
+                    Claims tempClaims = JwtUtil.parseJWT(socketIOClient.getHandshakeData().getSingleUrlParam("token"),secretKey);
                     UserData userData = new UserData();
-                    userData.setUserId(tempClaims.get("user_id",int.class));
+                    userData.setUserId(tempClaims.get("user_id",Integer.class));
                     userData.setUserName(tempClaims.get("unique_name",String.class));
                     userData.setSilent((tempClaims.get("role",String.class).equals(Role.SILENT_MAN.getName())?true:false));
+                    userData.setEnterTime(Long.valueOf(socketIOClient.getHandshakeData().getHttpHeaders().get("enterTime")));
+                    userData.setIsPower(socketIOClient.getHandshakeData().getHttpHeaders().getInt("isPower",0));
+                    userData.setCuid(uuid.toString());
                     userDataList.add(userData);
                 }
                 //获取笔记
+                Map<String,Object> sendData = new HashMap<>();
+                sendData.put("userDataList",userDataList);
+                sendData.put("noteList","");
 
                 // 4. 广播
                 String welcomeStr = "【"+claims.get("unique_name",String.class)+"】进入了直播室"  ;
-                socketIONamespace.getRoomOperations(roomId.toString()).sendEvent(Event.SYSTEM.getName(),new BasePacket(MesType.START,welcomeStr,"系统消息",0));
+                sendData.put("content",welcomeStr);
+                socketIONamespace.getRoomOperations(roomId.toString()).sendEvent(Event.SYSTEM.getName(),new BasePacket(MesType.START,JSON.toJSONString(sendData),"系统消息",0));
             }
         });
         //监听断开连接事件
@@ -116,9 +127,14 @@ public class ChatLauncher {
                     e.printStackTrace();
                     client.disconnect();
                 }
+                //获取笔记
+                Map<String,Object> sendData = new HashMap<>();
+                sendData.put("userId",claims.get("user_id",Integer.class));
+                sendData.put("totalNum",socketIONamespace.getRoomClient(roomId.toString()).size());
                 //广播
-                String endStr = "有用户："+claims.get("unique_name",String.class)+"退出当前房间  【"+roomId+"】  ！总人数： "+socketIONamespace.getAllClients().size()+"------"+client.getSessionId();
-                socketIONamespace.getRoomOperations(roomId.toString()).sendEvent(Event.SYSTEM.getName(),new BasePacket(MesType.END,endStr,"系统消息",0));
+                String endStr = "【"+claims.get("unique_name",String.class)+"】 已离开"  ;
+                sendData.put("content",endStr);
+                socketIONamespace.getRoomOperations(roomId.toString()).sendEvent(Event.SYSTEM.getName(),new BasePacket(MesType.END,JSON.toJSONString(sendData),"系统消息",0));
             }
         });
         //监听其他事件

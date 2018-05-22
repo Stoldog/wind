@@ -39,6 +39,16 @@ public class BasePacket {
         this.sendManId = sendManId;
     }
 
+    //带参构造
+    public BasePacket(MesType type, String content, String sendMan, Integer sendManId,boolean isPower) {
+        this.uuid = UUID.randomUUID().toString();
+        this.type = type.getTypeCode();
+        this.content = content;
+        this.sendMan = sendMan;
+        this.sendManId = sendManId;
+        this.isPower = isPower;
+    }
+
     public String getUuid() {
         return uuid;
     }

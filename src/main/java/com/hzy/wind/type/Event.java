@@ -12,7 +12,7 @@ public enum Event {
     RECALL(8,"RECALL","撤回"),
     NOTE(16,"NOTE","笔记"),
     SYSTEM(32,"SYSTEM","系统消息"),
-    ERROR(-1,"","")
+    ERROR(-1,"ERROR","错误消息")
     ;
     private int code;
     private String name;

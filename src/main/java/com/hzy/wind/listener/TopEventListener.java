@@ -27,6 +27,7 @@ public class TopEventListener extends TangtBaseListener{
         basePacket.setType(MesType.SYSTEM.getTypeCode());
         basePacket.setPower(isPowerByClaims(claims));
         broadcastMes(Event.TOP,socketIOClient,getRoomIdByClaims(claims),basePacket);
+
         //如果消息Id为空 则再执行发送消息的操作
         if(topData.getMessageId() == null || StringUtils.isEmpty(topData.getMessageId())){
             broadcastMes(Event.MESSAGE,socketIOClient,claims.get("room_id",Long.class),new BasePacket(MesType.HIGH_LIGHT,topData.getContent(),getUserNameByClaims(claims),getUserIdByClaims(claims)));

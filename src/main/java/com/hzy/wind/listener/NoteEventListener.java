@@ -36,6 +36,8 @@ public class NoteEventListener extends TangtBaseListener{
         //群发消息
         basePacket.setPower(isPowerByClaims(claims));
         basePacket.setType(MesType.NOTE.getTypeCode());
+        basePacket.setSendMan(getUserNameByClaims(claims));
+        basePacket.setSendManId(getUserIdByClaims(claims));
         broadcastMes(Event.NOTE,socketIOClient,getRoomIdByClaims(claims),basePacket);
     }
 }
