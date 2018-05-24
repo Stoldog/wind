@@ -49,23 +49,25 @@ public class SilenceEventListener extends TangtBaseListener {
      * @param socketIOClient
      * @param clientUUID
      */
-    private void doSilence(SocketIOClient socketIOClient,String clientUUID){
+    private void doSilence(SocketIOClient socketIOClient,String clientUUID) throws UnsupportedEncodingException {
         //获取需要禁言的客户端
         SocketIOClient silenceClient = socketIOClient.getNamespace().getClient(UUID.fromString(clientUUID));
         Claims silenceClaims = getClaimsByToken(silenceClient.getHandshakeData().getSingleUrlParam("token"));
         List<String> paramList = new ArrayList<>();
+        String tangtHost = socketIOClient.getHandshakeData().getHttpHeaders().get("tangtHost");
         //修改需要禁言的客户端的token权限符
         paramList.add(JwtUtil.createJWT(silenceClaims,secretKey,"role",Role.SILENT_MAN.getName()));
         silenceClient.getHandshakeData().getUrlParams().put("token",paramList);
         //向堂堂网发送请求
-        String resUrl = "";
-        Map<String,Object> params = new HashMap<>();
-        try {
-            String tangtData = HttpClientUtil.httpPostRequest(resUrl,params);
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-            socketIOClient.disconnect();
-        }
+        StringBuilder resUrl = new StringBuilder(tangtHost).append("/res/course/updateSilence.jspx");
+        resUrl.append("?roomId=")
+                .append(getRoomIdByClaims(silenceClaims))
+                .append("&userId=")
+                .append(getUserIdByClaims(silenceClaims).longValue())
+                .append("&silence=")
+                .append(1);
+
+        String tangtData = HttpClientUtil.httpGetRequest(resUrl.toString());
     }
 
     /**
@@ -76,23 +78,29 @@ public class SilenceEventListener extends TangtBaseListener {
      * @param roomId
      */
     private void doSilenceAll(SocketIOClient socketIOClient,Long roomId){
+        //获取名称空间
         SocketIONamespace socketIONamespace = socketIOClient.getNamespace();
+        String tangtHost = socketIOClient.getHandshakeData().getHttpHeaders().get("tangtHost");
+        //获取房间下的所有客户端
         for (UUID uuid : socketIONamespace.getRoomClient(roomId.toString())) {
             SocketIOClient ioClient = socketIONamespace.getClient(uuid);
             Claims claims1 = getClaimsByToken(ioClient.getHandshakeData().getSingleUrlParam("token"));
+            //如果为房间管理员 则跳过
+            if(getRoleByClaims(claims1).equals(Role.ROOM_ADMIN.getName())){
+                continue;
+            }
             List<String> paramList = new ArrayList<>();
             //修改需要取消禁言的客户端的token权限符
             paramList.add(JwtUtil.createJWT(claims1,secretKey,"role",Role.SILENT_MAN.getName()));
             ioClient.getHandshakeData().getUrlParams().put("token",paramList);
         }
         //向堂堂网发送请求
-        String resUrl = "";
-        Map<String,Object> params = new HashMap<>();
-        try {
-            String tangtData = HttpClientUtil.httpPostRequest(resUrl,params);
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-            socketIOClient.disconnect();
-        }
+        StringBuilder resUrl = new StringBuilder(tangtHost).append("/res/course/updateSilence.jspx");
+        resUrl.append("?roomId=")
+                .append(roomId)
+                .append("&silence=")
+                .append(1);
+
+        String tangtData = HttpClientUtil.httpGetRequest(resUrl.toString());
     }
 }

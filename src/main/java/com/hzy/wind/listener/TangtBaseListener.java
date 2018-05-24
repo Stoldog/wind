@@ -14,6 +14,7 @@ import io.jsonwebtoken.Claims;
  * 此抽象类为堂堂网项目专属监听器类 包含了一些通用的方法
  */
 public abstract class TangtBaseListener extends BaseListener {
+
     /**
      * 通过TOKEN获取 是否具有房间管理员权限
      * @param claims

@@ -8,7 +8,6 @@ import com.hzy.wind.entity.TopData;
 import com.hzy.wind.type.Event;
 import com.hzy.wind.type.MesType;
 import io.jsonwebtoken.Claims;
-import org.springframework.util.StringUtils;
 
 /**
  * Created by EduHzy-019 on 2018-05-18.
@@ -29,7 +28,7 @@ public class TopEventListener extends TangtBaseListener{
         broadcastMes(Event.TOP,socketIOClient,getRoomIdByClaims(claims),basePacket);
 
         //如果消息Id为空 则再执行发送消息的操作
-        if(topData.getMessageId() == null || StringUtils.isEmpty(topData.getMessageId())){
+        if(topData.getMessageId() == null || topData.getMessageId().equals("")){
             broadcastMes(Event.MESSAGE,socketIOClient,claims.get("room_id",Long.class),new BasePacket(MesType.HIGH_LIGHT,topData.getContent(),getUserNameByClaims(claims),getUserIdByClaims(claims)));
         }
     }

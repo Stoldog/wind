@@ -18,6 +18,7 @@ import org.apache.http.util.EntityUtils;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -49,7 +50,7 @@ public class HttpClientUtil {
      * @param url
      * @return
      */
-    public static String httpGetRequest(String url) {
+    public static String httpGetRequest(String url){
         HttpGet httpGet = new HttpGet(url);
         return getResult(httpGet);
     }
@@ -125,6 +126,7 @@ public class HttpClientUtil {
         // CloseableHttpClient httpClient = HttpClients.createDefault();
         CloseableHttpClient httpClient = getHttpClient();
         try {
+            request.addHeader("Accept-Charset", UTF_8);
             CloseableHttpResponse response = httpClient.execute(request);
             // response.getStatusLine().getStatusCode();
             HttpEntity entity = response.getEntity();
