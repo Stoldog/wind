@@ -12,6 +12,8 @@ public enum Event {
     RECALL(8,"RECALL","撤回"),
     NOTE(16,"NOTE","笔记"),
     SYSTEM(32,"SYSTEM","系统消息"),
+    IMAGE(64,"IMAGE","图片"),
+    NOTE_IMAGE(128,"NOTE_IMAGE","笔记图片"),
     ERROR(-1,"ERROR","错误消息")
     ;
     private int code;

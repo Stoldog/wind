@@ -42,7 +42,8 @@ public class ChatLauncher {
         Configuration config = new Configuration();
         config.setHostname(url.getHost());
         config.setPort(url.getPort());
-
+        config.setMaxHttpContentLength(3*1024*1024);//最大3M的本文长度
+        config.setMaxFramePayloadLength(3*1024*1024);//最大3M的本文长度
         final SocketIOServer server = new SocketIOServer(config);
         //服务器监听事件
         SocketIONamespace socketIONamespace = server.addNamespace(nameSpace);
@@ -166,7 +167,8 @@ public class ChatLauncher {
         socketIONamespace.addEventListener(Event.TOP.getName(), BasePacket.class, new TopEventListener());
         socketIONamespace.addEventListener(Event.RECALL.getName(), BasePacket.class, new RecallEventListener());
         socketIONamespace.addEventListener(Event.NOTE.getName(), BasePacket.class, new NoteEventListener());
-
+        socketIONamespace.addEventListener(Event.IMAGE.getName(), BasePacket.class, new ImageEventListener());
+        socketIONamespace.addEventListener(Event.NOTE_IMAGE.getName(), BasePacket.class, new NoteImageEventListener());
         server.start();
     }
 }
