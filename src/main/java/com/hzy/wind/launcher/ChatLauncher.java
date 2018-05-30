@@ -129,9 +129,9 @@ public class ChatLauncher {
                 String welcomeStr = "【"+claims.get("unique_name",String.class)+"】进入了直播室"  ;
                 sendData.put("content",welcomeStr);
                 //向客户端单独发送
-                client.sendEvent(Event.SYSTEM.getName(),new BasePacket(MesType.START,JSON.toJSONString(sendData),"系统消息",0));
+                //client.sendEvent(Event.SYSTEM.getName(),new BasePacket(MesType.START,JSON.toJSONString(sendData),"系统消息",0));
                 //群发welcome消息
-                socketIONamespace.getRoomOperations(roomId.toString()).sendEvent(Event.SYSTEM.getName(),new BasePacket(MesType.GENERAL,welcomeStr,"系统消息",0));
+                socketIONamespace.getRoomOperations(roomId.toString()).sendEvent(Event.SYSTEM.getName(),new BasePacket(MesType.START,JSON.toJSONString(sendData),"系统消息",0));
             }
         });
         //监听断开连接事件

@@ -10,6 +10,7 @@ import com.hzy.wind.type.MesType;
 import com.hzy.wind.utils.HttpClientUtil;
 import com.hzy.wind.utils.HttpUtil;
 import io.jsonwebtoken.Claims;
+import org.apache.commons.lang3.StringEscapeUtils;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;

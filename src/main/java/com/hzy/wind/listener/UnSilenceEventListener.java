@@ -87,7 +87,7 @@ public class UnSilenceEventListener extends TangtBaseListener{
             SocketIOClient ioClient = socketIONamespace.getClient(uuid);
             Claims claims1 = getClaimsByToken(ioClient.getHandshakeData().getSingleUrlParam("token"));
             //如果为房间管理员 则跳过
-            if(getRoleByClaims(claims1).equals(Role.ROOM_ADMIN.getName())){
+            if(getRoleByClaims(claims1).getName().equals(Role.ROOM_ADMIN.getName())){
                 continue;
             }
             List<String> params = new ArrayList<>();

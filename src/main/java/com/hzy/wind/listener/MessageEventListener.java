@@ -7,6 +7,9 @@ import com.hzy.wind.base.entity.BasePacket;
 import com.hzy.wind.type.Event;
 import com.hzy.wind.type.MesType;
 import io.jsonwebtoken.Claims;
+import org.apache.commons.lang3.StringEscapeUtils;
+
+import java.util.regex.Pattern;
 
 
 /**
@@ -24,10 +27,15 @@ public class MessageEventListener extends TangtBaseListener {
         if(checkSilenceAndSend(client,claims)){
             return;
         }
+        //判断是否具有html标签,如果有则不发送
+        /*Pattern p=Pattern.compile("<[^>]+>");
+        boolean result = p.matcher(data.getContent()).find();
+        if(result){return;}*/
         //判断是否高亮
         boolean isPower = isPowerByClaims(claims);
         String roomStr = client.getHandshakeData().getSingleUrlParam("roomId");
-        //设置群发消息的结构
+        //设置群发消息的结构(将发送的消息内容进行转义)
+        data.setContent(StringEscapeUtils.escapeHtml4(data.getContent()));
         data.setPower(isPower);
         data.setSendMan(getUserNameByClaims(claims));
         data.setSendManId(getUserIdByClaims(claims).intValue());

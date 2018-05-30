@@ -37,6 +37,8 @@ dependencies {
 
     // https://mvnrepository.com/artifact/org.slf4j/slf4j-api
     compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
+    // https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.7'
 
 
     //compile group: 'com.corundumstudio.socketio', name: 'netty-socketio', version: '1.7.14'
