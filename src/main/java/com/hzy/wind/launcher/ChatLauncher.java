@@ -77,61 +77,15 @@ public class ChatLauncher {
                 client.getHandshakeData().getHttpHeaders().add("userId",clientUserId);
                 client.joinRoom(roomId.toString());
                 // 3. 判断是否重复加入
-                List<UserData> userDataList = new ArrayList<>();
 
-                for (UUID uuid : socketIONamespace.getRoomClient(roomStr)) {
-                    SocketIOClient roomClient = socketIONamespace.getClient(uuid);
-                    //使用默认的密钥解析token
-                    Claims tempClaims = JwtUtil.parseJWT(roomClient.getHandshakeData().getSingleUrlParam("token"));
-                    UserData userData = new UserData();
-                    userData.setUserId(tempClaims.get("user_id",Integer.class));
-                    userData.setUserName(tempClaims.get("unique_name",String.class));
-                    userData.setSilent((tempClaims.get("role",String.class).equals(Role.SILENT_MAN.getName())?true:false));
-                    userData.setEnterTime(Long.valueOf(roomClient.getHandshakeData().getHttpHeaders().get("enterTime")));
-                    userData.setIsPower(roomClient.getHandshakeData().getHttpHeaders().getInt("isPower",0));
-                    userData.setCuid(uuid.toString());
-                    userDataList.add(userData);
-                    //如果客户端是自己 无需比较
-                    if(roomClient.getSessionId().toString().equals(client.getSessionId().toString())){
-                        continue;
-                    }
-                    //比较存入HandshakeData的userId，如果不是同一个用户跳过
-                    Long roomUserID = Long.valueOf(roomClient.getHandshakeData().getHttpHeaders().get("userId"));
-                    if(!(roomUserID.longValue()==clientUserId.longValue())){
-                        continue;
-                    }
-                    //如果userId相等，从userDataList中去除此客户端
-                    userDataList.remove(userData);
-                    roomClient.disconnect();
-                }
-
-                //向堂堂网发送记录请求
-                StringBuilder resUrl = new StringBuilder(tangtHost).append("/res/course/addView.jspx");
-                resUrl.append("?roomId=")
-                        .append(roomId)
-                        .append("&userId=")
-                        .append(claims.get("user_id",Long.class).longValue());
-
-                String tangtData = HttpClientUtil.httpGetRequest(resUrl.toString());
-                if(StringUtil.isNullOrEmpty(tangtData)){
-                    client.disconnect();
-                    return;
-                }
-                Map<String,Object> realData = (Map<String, Object>) JSON.parse(tangtData);
-                //将堂堂网的用户观看id记录
-                client.getHandshakeData().getHttpHeaders().add("cUserViewId",realData.get("cUserViewId"));
-                //获取笔记
-                Map<String,Object> sendData = new HashMap<>();
-                sendData.put("userDataList",userDataList);
-                sendData.put("noteList",realData.get("cNoteList"));
 
                 // 4. 广播
                 String welcomeStr = "【"+claims.get("unique_name",String.class)+"】进入了直播室"  ;
-                sendData.put("content",welcomeStr);
                 //向客户端单独发送
                 //client.sendEvent(Event.SYSTEM.getName(),new BasePacket(MesType.START,JSON.toJSONString(sendData),"系统消息",0));
+
                 //群发welcome消息
-                socketIONamespace.getRoomOperations(roomId.toString()).sendEvent(Event.SYSTEM.getName(),new BasePacket(MesType.START,JSON.toJSONString(sendData),"系统消息",0));
+                socketIONamespace.getRoomOperations(roomId.toString()).sendEvent(Event.SYSTEM.getName(),new BasePacket(MesType.START,JSON.toJSONString(welcomeStr),"系统消息",0));
             }
         });
         //监听断开连接事件
@@ -142,33 +96,15 @@ public class ChatLauncher {
                 //使用默认的密钥
                 Claims claims = JwtUtil.parseJWT(tokenStr);
                 Long roomId = claims.get("room_id",Long.class);
-                String cUserViewIdStr = client.getHandshakeData().getHttpHeaders().get("cUserViewId");
-                //向堂堂网发送记录请求
-                StringBuilder resUrl = new StringBuilder(tangtHost).append("/res/course/updateView.jspx");
-                resUrl.append("?cUserViewId=")
-                        .append(Long.valueOf(cUserViewIdStr));
 
-                String tangtData = HttpClientUtil.httpGetRequest(resUrl.toString());
-                //获取笔记
-                Map<String,Object> sendData = new HashMap<>();
-                sendData.put("userId",claims.get("user_id",Integer.class));
-                sendData.put("cuid",client.getSessionId().toString());
-                sendData.put("totalNum",socketIONamespace.getRoomClient(roomId.toString()).size());
+
                 //广播
                 String endStr = "【"+claims.get("unique_name",String.class)+"】 已离开"  ;
-                sendData.put("content",endStr);
-                socketIONamespace.getRoomOperations(roomId.toString()).sendEvent(Event.SYSTEM.getName(),new BasePacket(MesType.END,JSON.toJSONString(sendData),"系统消息",0));
+                socketIONamespace.getRoomOperations(roomId.toString()).sendEvent(Event.SYSTEM.getName(),new BasePacket(MesType.END,JSON.toJSONString(endStr),"系统消息",0));
             }
         });
         //监听其他事件
-        socketIONamespace.addEventListener(Event.MESSAGE.getName(), BasePacket.class, new MessageEventListener());
-        socketIONamespace.addEventListener(Event.SILENCE.getName(), BasePacket.class, new SilenceEventListener());
-        socketIONamespace.addEventListener(Event.UNSILENCE.getName(), BasePacket.class, new UnSilenceEventListener());
-        socketIONamespace.addEventListener(Event.TOP.getName(), BasePacket.class, new TopEventListener());
-        socketIONamespace.addEventListener(Event.RECALL.getName(), BasePacket.class, new RecallEventListener());
-        socketIONamespace.addEventListener(Event.NOTE.getName(), BasePacket.class, new NoteEventListener());
-        socketIONamespace.addEventListener(Event.IMAGE.getName(), BasePacket.class, new ImageEventListener());
-        socketIONamespace.addEventListener(Event.NOTE_IMAGE.getName(), BasePacket.class, new NoteImageEventListener());
+
         server.start();
     }
 }
