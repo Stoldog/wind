@@ -24,6 +24,7 @@ public class ChangeListener implements DataListener<BasePacket> {
             if(userId==null || userId.equals("")){continue;}
             //如果userId不相跳过
             if(!ownUserId.equals(userId)){continue;}
+            //发送修改事件
             socketIOClient1.sendEvent(Event.CHANGE.getName(),basePacket);
         }
     }

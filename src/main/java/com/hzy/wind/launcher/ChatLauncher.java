@@ -28,8 +28,7 @@ import java.util.*;
  */
 public class ChatLauncher {
     //常量
-    public static String nameSpace = "/tangt";
-    public static String tangtHost;
+    public static String nameSpace = "/mes";
 
     //日志
     private static Logger logger = LoggerFactory.getLogger(ChatLauncher.class);
@@ -37,7 +36,6 @@ public class ChatLauncher {
 
         //初始化参数
         URL url = new URL(args[0]);
-        tangtHost = args[1];
         //服务器配置
         Configuration config = new Configuration();
         config.setHostname(url.getHost());
@@ -53,7 +51,6 @@ public class ChatLauncher {
             public void onConnect(SocketIOClient client) {
                 //1. 解密
                 String tokenStr = client.getHandshakeData().getSingleUrlParam("token");
-                String roomStr = client.getHandshakeData().getSingleUrlParam("roomId");
                 //使用默认的密钥
                 Claims claims = JwtUtil.parseJWT(tokenStr);
                 if(claims==null){
@@ -71,7 +68,6 @@ public class ChatLauncher {
                 boolean isPower = Role.ROOM_ADMIN.getName().equalsIgnoreCase(claims.get("role",String.class));
                 Date enterTime = new Date();
                 //增加权限及其他的参数
-                client.getHandshakeData().getHttpHeaders().add("tangtHost",tangtHost);
                 client.getHandshakeData().getHttpHeaders().add("isPower",(isPower?1:0));
                 client.getHandshakeData().getHttpHeaders().add("enterTime",enterTime.getTime());
                 client.getHandshakeData().getHttpHeaders().add("userId",clientUserId);
@@ -80,7 +76,7 @@ public class ChatLauncher {
 
 
                 // 4. 广播
-                String welcomeStr = "【"+claims.get("unique_name",String.class)+"】进入了直播室"  ;
+                String welcomeStr = "【"+claims.get("unique_name",String.class)+"】已登陆"  ;
                 //向客户端单独发送
                 //client.sendEvent(Event.SYSTEM.getName(),new BasePacket(MesType.START,JSON.toJSONString(sendData),"系统消息",0));
 
