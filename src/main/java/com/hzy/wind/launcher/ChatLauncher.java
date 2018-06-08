@@ -68,6 +68,7 @@ public class ChatLauncher {
                 boolean isPower = Role.ROOM_ADMIN.getName().equalsIgnoreCase(claims.get("role",String.class));
                 Date enterTime = new Date();
                 //增加权限及其他的参数
+                client.getHandshakeData().getHttpHeaders().add("roomId",roomId);
                 client.getHandshakeData().getHttpHeaders().add("isPower",(isPower?1:0));
                 client.getHandshakeData().getHttpHeaders().add("enterTime",enterTime.getTime());
                 client.getHandshakeData().getHttpHeaders().add("userId",clientUserId);
@@ -100,7 +101,7 @@ public class ChatLauncher {
             }
         });
         //监听其他事件
-
+        socketIONamespace.addEventListener(Event.CHANGE.getName(), BasePacket.class, new ChangeEventListener());
         server.start();
     }
 }

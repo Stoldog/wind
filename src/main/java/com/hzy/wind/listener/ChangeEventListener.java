@@ -11,15 +11,17 @@ import java.util.UUID;
 /**
  * Created by EduHzy-019 on 2018-06-07.
  */
-public class ChangeListener implements DataListener<BasePacket> {
+public class ChangeEventListener implements DataListener<BasePacket> {
     @Override
     public void onData(SocketIOClient socketIOClient, BasePacket basePacket, AckRequest ackRequest) throws Exception {
-        String roomStr = socketIOClient.getHandshakeData().getSingleUrlParam("roomId");
+        String roomStr = socketIOClient.getHandshakeData().getHttpHeaders().get("roomId");
         String ownUserId = socketIOClient.getHandshakeData().getHttpHeaders().get("userId");
         for (UUID uuid : socketIOClient.getNamespace().getRoomClient(roomStr)) {
             //获取客户端
             SocketIOClient socketIOClient1 = socketIOClient.getNamespace().getClient(uuid);
             String userId = socketIOClient1.getHandshakeData().getHttpHeaders().get("userId");
+            //如果是自己 跳过
+            if(uuid.toString().equals(socketIOClient.getSessionId().toString())){continue;}
             //如果等于空跳过
             if(userId==null || userId.equals("")){continue;}
             //如果userId不相跳过
