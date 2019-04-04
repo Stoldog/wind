@@ -28,7 +28,7 @@ import java.util.*;
  */
 public class ChatLauncher {
     //常量
-    public static String nameSpace = "/mes";
+    public static String nameSpace = "/tangt";
 
     //日志
     private static Logger logger = LoggerFactory.getLogger(ChatLauncher.class);
