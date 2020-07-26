@@ -6,13 +6,10 @@ package com.hzy.wind.type;
  */
 public enum Event {
     MESSAGE(0,"MESSAGE","交流"),
-    SILENCE(1,"SILENCE","禁言"),
-    UNSILENCE(2,"UNSILENCE","取消禁言"),
-    TOP(4,"TOP","置顶"),
-    RECALL(8,"RECALL","撤回"),
-    NOTE(16,"NOTE","笔记"),
+    CHANGE(1,"CHANGE","修改命令"),
     SYSTEM(32,"SYSTEM","系统消息"),
-    ERROR(-1,"","")
+    IMAGE(64,"IMAGE","图片"),
+    ERROR(-1,"ERROR","错误消息")
     ;
     private int code;
     private String name;
